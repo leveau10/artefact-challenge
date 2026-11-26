@@ -19,7 +19,7 @@ function getQueryClient() {
 }
 
 function getUrl() {
-  const base = `http://localhost:3000}`;
+  const base = typeof window !== "undefined" ? "" : `http://localhost:${process.env.PORT ?? 3000}`;
   return `${base}/api/trpc`;
 }
 
