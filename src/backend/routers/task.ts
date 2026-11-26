@@ -1,5 +1,10 @@
 import { TRPCError } from "@trpc/server";
-import { createTaskSchema, taskIdSchema, updateTaskSchema } from "@/schema/task-schema";
+import {
+  createTaskSchema,
+  listTasksSchema,
+  taskIdSchema,
+  updateTaskSchema,
+} from "@/schema/task-schema";
 import { taskStore } from "@/backend/task-store";
 import { publicProcedure, router } from "@/backend/trpc";
 
@@ -12,13 +17,7 @@ function taskNotFound() {
 }
 
 export const taskRouter = router({
-  list: publicProcedure.query(() => taskStore.list()),
-
-  getById: publicProcedure.input(taskIdSchema).query(({ input }) => {
-    const task = taskStore.get(input.id);
-    if (!task) throw taskNotFound();
-    return task;
-  }),
+  list: publicProcedure.input(listTasksSchema).query(({ input }) => taskStore.list(input)),
 
   create: publicProcedure
     .input(createTaskSchema)

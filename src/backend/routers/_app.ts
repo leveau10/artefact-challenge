@@ -1,4 +1,4 @@
-import { createCallerFactory, router } from "@/backend/trpc";
+import { router } from "@/backend/trpc";
 import { taskRouter } from "./task";
 
 export const appRouter = router({
@@ -6,5 +6,3 @@ export const appRouter = router({
 });
 
 export type AppRouter = typeof appRouter;
-
-export const createCaller = createCallerFactory(appRouter);
