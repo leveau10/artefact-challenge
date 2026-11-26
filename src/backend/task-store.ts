@@ -33,7 +33,9 @@ export const taskStore = {
   },
 
   get(id: string): Task | undefined {
-    return tasks.get(id);
+    const task = tasks.get(id);
+    if (!task) return undefined;
+    return task;
   },
 
   create(input: CreateTaskLogic): Task {
