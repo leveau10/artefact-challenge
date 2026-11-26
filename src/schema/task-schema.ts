@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const TITLE_MAX = 30;
+export const TITLE_MAX = 50;
 export const DESCRIPTION_MAX = 200;
 
 // rules to create a task
@@ -26,6 +26,15 @@ export const taskIdSchema = z.object({
   id: z.string().min(1),
 });
 
+export const PAGE_SIZE = 10;
+
+// rules to list a page of tasks. The cursor points at the last task of the previous page
+export const listTasksSchema = z.object({
+  limit: z.number().int().min(1).max(50).default(PAGE_SIZE),
+  cursor: z.object({ createdAt: z.date(), id: z.string() }).nullish(),
+});
+
+export type TaskCursor = NonNullable<z.infer<typeof listTasksSchema>["cursor"]>;
 export type CreateTaskLogic = z.infer<typeof createTaskSchema>;
 export type UpdateTaskLogic = z.infer<typeof updateTaskSchema>;
 
